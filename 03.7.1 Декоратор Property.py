@@ -219,3 +219,27 @@ assert file_3.size == "2.60 GB"
 file_3.size = 1073741824
 assert file_3.size == "1.00 GB"
 print('Good')
+
+
+# Вариант
+import copy
+class File:
+    def __init__(self, size):
+        self.size = size
+
+    @property
+    def size(self):
+        size_name = ['B', 'KB', 'MB', 'GB']
+        i = 0
+        s = copy.copy(self._size_in_bytes)
+        while s >= 1024 and i < len(size_name) - 1:
+            s /= 1024
+            i += 1
+        return f"{(self._size_in_bytes, format(self._size_in_bytes / 1024 ** i, '.2f'))[bool(i)]} {size_name[i]}"
+
+    @size.setter
+    def size(self, val):
+        self._size_in_bytes = val
+
+file = File(1024 ** 5)
+print(file.size)
