@@ -2,7 +2,6 @@
 """"""
 
 
-
 # *  *  *  *  *   Task   *  *  *  *  *
 
 
@@ -635,7 +634,7 @@ print(jack)
   И заканчивается чек строкой
   ---Total: {self.total}---
 """
-from collections import defaultdict  # опционпльно для варианта 2*
+from collections import defaultdict  # Вариант defaultdict
 
 class Cart:
 
@@ -644,28 +643,29 @@ class Cart:
             self.user = user
         self.__total = 0
         self.goods = dict()
+        # self.goods = defaultdict(int)  # Вариант defaultdict
 
-    def add(self, prod, cnt=1):
-        if isinstance(prod, Product):
-            if prod in self.goods and cnt > 1:
+    def add(self, prod: object, cnt=1):
+        if isinstance(prod, Product) and cnt > 0:
+            # if prod in self.goods:  # Без setdefault()
+            #     self.goods[prod] += cnt
+            # else:
+            #     self.goods[prod] = cnt
 
-                # Через setdefault все ниже можно пропустить
-                # self.goods[product] = self.goods.setdefault(product, 0) + cnt
+            self.goods.setdefault(prod, 0)
+            self.goods[prod] += cnt
 
-                self.goods[prod] += cnt
-            else:  # для варианта 2* блок else можно опустить
-                self.goods[prod] = cnt
+            # self.goods[prod] += cnt  # Вариант defaultdict
             self.__total += cnt * prod.price
 
-    def remove(self, prod, cnt=1):
-        if isinstance(prod, Product):
-            if prod in self.goods and self.goods[prod] >= cnt and cnt > 1:
+    def remove(self, prod: object, cnt: int = 1):
+        if isinstance(prod, Product) and cnt > 0:
+            if prod in self.goods and self.goods[prod] > cnt:
                 self.goods[prod] -= cnt
                 self.__total -= cnt * prod.price
             else:
-                self.__total -= self.goods[prod]  * prod.price
+                self.__total -= self.goods[prod] * prod.price
                 del self.goods[prod]
-
 
     @property
     def total(self):
@@ -679,8 +679,10 @@ class Cart:
 
     def print_check(self):
         print("---Your check---")
-        for key, val in sorted(self.goods.items(), key=lambda el: el[0].name):
-            print(f"{key.name} {key.price} {val} {key.price * val}")
+        for el in sorted(self.goods, key=lambda x: x.name):
+            print(f'{el.name} {el.price} {self.goods[el]} {self.goods[el] * el.price}')
+        # for key, val in sorted(self.goods.items(), key=lambda el: el[0].name):  # Вариант
+        #     print(f"{key.name} {key.price} {val} {key.price * val}")
         print(f"---Total: {self.total}---")
 
 
