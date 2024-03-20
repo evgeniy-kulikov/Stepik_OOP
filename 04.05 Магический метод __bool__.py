@@ -90,6 +90,24 @@ class Quadrilateral:
         return f"Прямоугольник размером {self.width}х{self.height}"
 
 
+# Вариант
+class Quadrilateral:
+
+    def __init__(self, *args):
+        if len(args) == 2:
+            self.width, self.height = args
+        if len(args) == 1:
+            self.width = self.height = args[0]
+
+    def __bool__(self):
+        return self.width == self.height
+
+    def __str__(self):
+        if self.__bool__():
+            return f"Квадрат размером {self.width}х{self.height}"
+        return f"Прямоугольник размером {self.width}х{self.height}"
+
+
 # Код для проверки
 q1 = Quadrilateral(10)
 print(q1)
