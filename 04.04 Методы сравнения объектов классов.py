@@ -335,6 +335,3 @@ assert not r2 < r3
 assert r2 >= r3
 assert not r2 <= r3
 print('Good')
-
-
-
