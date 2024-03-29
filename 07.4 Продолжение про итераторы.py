@@ -221,7 +221,8 @@ for number in fibonacci_iter:
 
 # Task 04
 """
-
+Инвентаризация библиотеки
+https://stepik.org/lesson/1136048/step/9?unit=1147676
 """
 
 class Book:
